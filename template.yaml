@@ -200,25 +200,6 @@ spec:
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName}}
           sourceControl: github.com
-          
-    - id: manifestsTemplate
-      name: Generating the Manifests Component
-      action: fetch:template
-      input:
-        url: ./skeletons/manifests/
-        values:
-          orgName: ${{ parameters.orgName }}
-          repoName: ${{ parameters.repoName }}
-          owner: ${{ parameters.owner }}
-          system: ${{ parameters.system }}
-          applicationType: gitops
-          description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
-          namespace: ${{ parameters.namespace }}
-          imageUrl: ${{ parameters.imageUrl }}
-          hostUrl: ${{ parameters.hostUrl }}
-          imageRepository: ${{ parameters.imageRepository }}
-          port: ${{ parameters.port }}
-          sourceControl: github.com
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -235,18 +216,6 @@ spec:
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
         catalogInfoPath: /catalog-info.yaml
-        
-    - id: createArgocdResources
-      name: Create the ArgoCD Resources
-      action: argocd:create-resources
-      input:
-        appName: ${{ parameters.repoName }}
-        # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
-        argoInstance: argocd.operate-first.cloud
-        namespace: ${{ parameters.namespace }}
-        repoUrl: ${{ steps.publish.output.remoteUrl }}
-        labelValue: ${{ parameters.repoName }}
-        path: manifests/manifests/base
 
   output:
     links:
