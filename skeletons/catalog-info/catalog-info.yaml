@@ -24,7 +24,7 @@ metadata:
     {%- endif %}
     tektonci/build-namespace: ${{ values.namespace }}
     backstage.io/kubernetes-id: ${{ name }}
-    backstage.io/techdocs-ref: dir:../../skeleton/README.md
+    backstage.io/techdocs-ref: dir:README.md
     {%- if values.sourceControl == "gitlab.com" %}
     gitlab.com/project-slug: ${{ values.orgName }}/${{ values.repoName }}
     {%- elif values.sourceControl == "github.com" %}
